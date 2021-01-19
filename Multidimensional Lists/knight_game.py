@@ -17,26 +17,26 @@ K000K
 """
 
 
-def is_valid(position, size):
-    row = position[0]
-    col = position[1]
+def is_valid(pos, size):
+    row = pos[0]
+    col = pos[1]
     return 0 <= row < size and 0 <= col < size
 
 
-def get_killed_knight(row, col, size, board):
-    killed_knights = 0
+def get_killed_knights(row, col, size, board):
+    killed_knight = 0
     rows = [-2, -1, 1, 2, 2, 1, -1, -2]
     cols = [1, 2, 2, 1, -1, -2, -2, -1]
     for i in range(8):
         current_position = [row + rows[i], col + cols[i]]
         if is_valid(current_position, size) and board[current_position[0]][current_position[1]] == "K":
-            killed_knights += 1
-    return killed_knights
+            killed_knight += 1
+    return killed_knight
 
 
 n = int(input())
 board = []
-total_killed_knights = 0
+total_kills = 0
 
 for _ in range(n):
     board.append([x for x in input()])
@@ -44,21 +44,19 @@ for _ in range(n):
 while True:
     most_kills = 0
     to_kill = []
-
     for row in range(n):
         for col in range(n):
             if board[row][col] == 'K':
-                killed_knight = get_killed_knight(row, col, n, board)
-                if killed_knight > most_kills:
-                    most_kills = killed_knight
+                killed_knights = get_killed_knights(row, col, n, board)
+                if killed_knights > most_kills:
+                    most_kills = killed_knights
                     to_kill = [row, col]
-
     if most_kills == 0:
         break
 
     to_kill_row = to_kill[0]
-    to_kill_col = to_kill[0]
-    board[to_kill_row][to_kill_col] = '0'
-    total_killed_knights += 1
+    to_kill_col = to_kill[1]
+    board[to_kill_row][to_kill_col] = "0"
+    total_kills += 1
 
-print(total_killed_knights)
+print(total_kills)
